@@ -5,13 +5,12 @@
 //  Created by Marcus Vinicius Vieira Badiale on 24/07/19.
 //  Copyright © 2019 Marcus Vinicius Vieira Badiale. All rights reserved.
 //
-
 import UIKit
 import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
+    
     var scene: GameScene?
     
     override func viewDidLoad() {
@@ -52,11 +51,11 @@ class GameViewController: UIViewController {
             print("Outro")
         }
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }
-
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -64,7 +63,7 @@ class GameViewController: UIViewController {
             return .all
         }
     }
-
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }

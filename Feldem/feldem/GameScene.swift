@@ -5,7 +5,6 @@
 //  Created by Marcus Vinicius Vieira Badiale on 24/07/19.
 //  Copyright © 2019 Marcus Vinicius Vieira Badiale. All rights reserved.
 //
-
 import SpriteKit
 import GameplayKit
 
@@ -42,9 +41,9 @@ class GameScene: SKScene {
         
         let touch = touches.first
         let positionInScene = touch?.location(in: self)
-
+        
         cameraTeste?.position.x += 10
-
+        
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     

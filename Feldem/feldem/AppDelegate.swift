@@ -1,15 +1,15 @@
 //
 //  AppDelegate.swift
-//  temporary Game
+//  Feldem
 //
-//  Created by Marcus Vinicius Vieira Badiale on 24/07/19.
+//  Created by Marcus Vinicius Vieira Badiale on 02/08/19.
 //  Copyright © 2019 Marcus Vinicius Vieira Badiale. All rights reserved.
 //
 
 import UIKit
 
 @UIApplicationMain
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
