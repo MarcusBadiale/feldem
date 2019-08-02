@@ -38,18 +38,6 @@ class GameViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        switch UIDevice.current.orientation {
-        case .portrait, .portraitUpsideDown:
-            print("portrait")
-            print(size.width)
-            print(size.height)
-        case .landscapeLeft, .landscapeRight:
-            print("landscape")
-            print(size.width)
-            print(size.height)
-        default:
-            print("Outro")
-        }
     }
     
     override var shouldAutorotate: Bool {
