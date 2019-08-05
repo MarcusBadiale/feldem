@@ -27,9 +27,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.wall = (self.childNode(withName: "wall")as? SKSpriteNode)!
         camera = cameraTeste
         
-        if let background = self.background{
-            background.anchorPoint = CGPoint(x: 0.5, y: 0.12)
-        }
+//        if let background = self.background{
+//            background.anchorPoint = CGPoint(x: 0.5, y: 0.12)
+//        }
         
 //        if let wall = self.wall{
 //            wall.physicsBody = .
@@ -86,13 +86,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
-        if (player?.position.y)! > ((cameraTeste?.position.y)! + 210) {
+        if (player?.position.y)! > ((cameraTeste?.position.y)! + 212) {
             cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)!, y: (cameraTeste?.position.y)! + 414), duration: 0.5))
         }
-        if (player?.position.y)! < ((cameraTeste?.position.y)! - 210) {
+        if (player?.position.y)! < ((cameraTeste?.position.y)! - 212) {
             cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)!, y: (cameraTeste?.position.y)! - 414), duration: 0.5))
         }
-        if (player?.position.x)! > ((cameraTeste?.position.x)! + 210) {
+        if (player?.position.x)! > ((cameraTeste?.position.x)! + 212) {
             cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)! + 414, y: (cameraTeste?.position.y)!), duration: 0.5))
         }
         if (player?.position.x)! < ((cameraTeste?.position.x)! - 210) {
@@ -108,11 +108,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "player" && contact.bodyB.node?.name == "wall"{
             stopMoving(player: player!)
+            if player!.position.y < wall!.position.y{
+                player?.position.y = (player?.position.y)! - 1.0
+            }
+            
+            print("o player bateu com a parede")
         }
         
         if contact.bodyB.node?.name == "player" && contact.bodyA.node?.name == "wall"{
             stopMoving(player: player!)
+            if player!.position.y < wall!.position.y{
+//                player?.physicsBody?.applyForce(CGVector(dx: 0, dy: 100))
+                player?.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -0.1))
+                print("empurrou")
+            }
+            print("a parede bateu com o player")
         }
     }
+    
+    
 
 }
