@@ -8,20 +8,32 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
+    var player: SKSpriteNode?
+    var wall: SKSpriteNode?
     
     override func didMove(to view: SKView) {
         
+        physicsWorld.contactDelegate = self
+        
         self.background = (self.childNode(withName: "background") as? SKSpriteNode)!
         self.cameraTeste = (self.childNode(withName: "cameraTeste") as? SKCameraNode)!
+        self.player = (self.childNode(withName: "player") as? SKSpriteNode)!
+        player?.name = "player"
+        wall?.name = "wall"
+        self.wall = (self.childNode(withName: "wall")as? SKSpriteNode)!
         camera = cameraTeste
         
         if let background = self.background{
-            background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            background.anchorPoint = CGPoint(x: 0.5, y: 0.12)
         }
+        
+//        if let wall = self.wall{
+//            wall.physicsBody = .
+//        }
     }
     
     
@@ -42,7 +54,18 @@ class GameScene: SKScene {
         let touch = touches.first
         let positionInScene = touch?.location(in: self)
         
-        cameraTeste?.position.x += 10
+        let move = SKAction.move(to: positionInScene!, duration: 0.5)
+        
+        player?.run(move, withKey: "move")
+
+//        Remover action de mover quando colidir com algo
+        
+//        player?.removeAction(forKey: "move")
+        
+        
+        
+        
+//        cameraTeste?.position.x += 10
         
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
@@ -62,5 +85,34 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
+        if (player?.position.y)! > ((cameraTeste?.position.y)! + 210) {
+            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)!, y: (cameraTeste?.position.y)! + 414), duration: 0.5))
+        }
+        if (player?.position.y)! < ((cameraTeste?.position.y)! - 210) {
+            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)!, y: (cameraTeste?.position.y)! - 414), duration: 0.5))
+        }
+        if (player?.position.x)! > ((cameraTeste?.position.x)! + 210) {
+            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)! + 414, y: (cameraTeste?.position.y)!), duration: 0.5))
+        }
+        if (player?.position.x)! < ((cameraTeste?.position.x)! - 210) {
+            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)! - 414, y: (cameraTeste?.position.y)!), duration: 0.5))
+        }
+        
     }
+    
+    func stopMoving(player: SKSpriteNode) {
+        player.removeAction(forKey: "move")
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.node?.name == "player" && contact.bodyB.node?.name == "wall"{
+            stopMoving(player: player!)
+        }
+        
+        if contact.bodyB.node?.name == "player" && contact.bodyA.node?.name == "wall"{
+            stopMoving(player: player!)
+        }
+    }
+
 }
