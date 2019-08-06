@@ -10,10 +10,26 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var teste = true
+    
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
     var player: SKSpriteNode?
     var wall: SKSpriteNode?
+    var centerOfSquare0: SKNode?
+    var centerOfSquare1: SKNode?
+    var centerOfSquare2: SKNode?
+    var centerOfSquare3: SKNode?
+    var centerOfSquare4: SKNode?
+    var centerOfSquare5: SKNode?
+    var centerOfSquare6: SKNode?
+    var centerOfSquare7: SKNode?
+    var centerOfSquare8: SKNode?
+    var centerOfSquare9: SKNode?
+    var centerOfSquare10: SKNode?
+    var centerOfSquare11: SKNode?
+    
+    var centers = [SKNode]()
     
     override func didMove(to view: SKView) {
         
@@ -22,18 +38,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.background = (self.childNode(withName: "background") as? SKSpriteNode)!
         self.cameraTeste = (self.childNode(withName: "cameraTeste") as? SKCameraNode)!
         self.player = (self.childNode(withName: "player") as? SKSpriteNode)!
+        
+        self.centerOfSquare0 = (self.childNode(withName: "centerOfSquare0"))!
+        self.centerOfSquare1 = (self.childNode(withName: "centerOfSquare1"))!
+        self.centerOfSquare2 = (self.childNode(withName: "centerOfSquare2"))!
+        self.centerOfSquare3 = (self.childNode(withName: "centerOfSquare3"))!
+        self.centerOfSquare4 = (self.childNode(withName: "centerOfSquare4"))!
+        self.centerOfSquare5 = (self.childNode(withName: "centerOfSquare5"))!
+        self.centerOfSquare6 = (self.childNode(withName: "centerOfSquare6"))!
+        self.centerOfSquare7 = (self.childNode(withName: "centerOfSquare7"))!
+        self.centerOfSquare8 = (self.childNode(withName: "centerOfSquare8"))!
+        self.centerOfSquare9 = (self.childNode(withName: "centerOfSquare9"))!
+        self.centerOfSquare10 = (self.childNode(withName: "centerOfSquare10"))!
+        self.centerOfSquare11 = (self.childNode(withName: "centerOfSquare11"))!
+        
+        centers = [centerOfSquare0, centerOfSquare1, centerOfSquare2, centerOfSquare3, centerOfSquare4, centerOfSquare5, centerOfSquare6, centerOfSquare7, centerOfSquare8, centerOfSquare9, centerOfSquare10, centerOfSquare11] as! [SKNode]
+        
         player?.name = "player"
         wall?.name = "wall"
         self.wall = (self.childNode(withName: "wall")as? SKSpriteNode)!
         camera = cameraTeste
-        
-//        if let background = self.background{
-//            background.anchorPoint = CGPoint(x: 0.5, y: 0.12)
-//        }
-        
-//        if let wall = self.wall{
-//            wall.physicsBody = .
-//        }
     }
     
     
@@ -57,15 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let move = SKAction.move(to: positionInScene!, duration: 0.5)
         
         player?.run(move, withKey: "move")
-
-//        Remover action de mover quando colidir com algo
-        
-//        player?.removeAction(forKey: "move")
-        
-        
-        
-        
-//        cameraTeste?.position.x += 10
         
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
@@ -86,19 +101,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
-        if (player?.position.y)! > ((cameraTeste?.position.y)! + 212) {
-            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)!, y: (cameraTeste?.position.y)! + 414), duration: 0.5))
+        for node in centers{
+            if player!.position.distance(point: node.position) < player!.position.distance(point: cameraTeste!.position){
+                cameraTeste?.run(SKAction.move(to: node.position, duration: 0.5))
+            }
         }
-        if (player?.position.y)! < ((cameraTeste?.position.y)! - 212) {
-            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)!, y: (cameraTeste?.position.y)! - 414), duration: 0.5))
-        }
-        if (player?.position.x)! > ((cameraTeste?.position.x)! + 212) {
-            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)! + 414, y: (cameraTeste?.position.y)!), duration: 0.5))
-        }
-        if (player?.position.x)! < ((cameraTeste?.position.x)! - 210) {
-            cameraTeste?.run(SKAction.move(to: CGPoint(x: (cameraTeste?.position.x)! - 414, y: (cameraTeste?.position.y)!), duration: 0.5))
-        }
-        
     }
     
     func stopMoving(player: SKSpriteNode) {
@@ -118,14 +125,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyB.node?.name == "player" && contact.bodyA.node?.name == "wall"{
             stopMoving(player: player!)
             if player!.position.y < wall!.position.y{
-//                player?.physicsBody?.applyForce(CGVector(dx: 0, dy: 100))
-                player?.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -0.1))
+                player?.run(SKAction.moveTo(y: player!.position.y - 5, duration: 0.1))
                 print("empurrou")
             }
             print("a parede bateu com o player")
         }
     }
-    
-    
-
 }
+
+extension CGPoint {
+    func distance(point: CGPoint) -> CGFloat {
+        return abs(CGFloat(hypotf(Float(point.x - x), Float(point.y - y))))
+    }
+}
+
