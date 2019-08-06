@@ -10,10 +10,8 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var teste = true
-    
-    enum WalkingDirection {
-        case up, down, left, right, upperRight, upperLeft, downLeft, downRight, standingStill, layingDown
+enum WalkingDirection {
+        case up, down, left, right, upperRight, upperLeft, downLeft, downRight, standingStill, layingDown, sleeping
         
         var walkingDirectionName: String {
             switch self {
@@ -37,9 +35,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return "standingStill"
             case .layingDown:
                 return "layingDown"
+            case .sleeping:
+                return "sleeping"
             }
         }
     }
+    
+    var isMoving = false
+    var timer = 0
     
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
@@ -91,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         updateFeldemDirection(to: .standingStill)
         setupFeldem()
-        animateFeldemStandingStill()
+        animateFeldemStandingStill(state: .standingStill)
     }
 
     
@@ -172,8 +175,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                    withKey: "walkingInPlaceFeldem")
     }
     
-    func animateFeldemStandingStill() {
-        updateFeldemDirection(to: .standingStill)
+    func animateFeldemStandingStill(state: WalkingDirection) {
+        updateFeldemDirection(to: state)
         feldem.run(SKAction.repeatForever(
             SKAction.animate(with: feldemWalkingFrames,
                              timePerFrame: 2,
@@ -183,6 +186,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func moveFeldem(location: CGPoint) {
+        isMoving = true
         let feldemSpeed = frame.size.width / 5
         let moveDifference = CGPoint(x: location.x - feldem.position.x, y: location.y - feldem.position.y)
         let distanceToMove = sqrt(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y)
@@ -196,18 +200,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        
         for node in centers{
             if feldem.position.distance(point: node.position) < feldem.position.distance(point: cameraTeste!.position){
                 cameraTeste?.run(SKAction.move(to: node.position, duration: 0.5))
+            }
+        }
+        
+        if !isMoving{
+            timer += 1
+            if timer == 390{
+                updateFeldemDirection(to: .layingDown)
+                animateFeldemStandingStill(state: .layingDown)
+            }
+            if timer == 800{
+                updateFeldemDirection(to: .sleeping)
+                animateFeldemStandingStill(state: .sleeping)
             }
         }
     }
     
     func feldemMoveEnded(){
         feldem.removeAllActions()
-        animateFeldemStandingStill()
+        timer = 0
+        isMoving = false
+        animateFeldemStandingStill(state: .standingStill)
     }
     
     func stopMoving(player: SKSpriteNode) {

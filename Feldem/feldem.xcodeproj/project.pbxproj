@@ -21,6 +21,7 @@
 		277DBD8722F9FD4B00803594 /* walkingUpperRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 277DBD8622F9FD4A00803594 /* walkingUpperRight.atlas */; };
 		277DBD8A22FA014F00803594 /* layingDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 277DBD8822FA014E00803594 /* layingDown.atlas */; };
 		277DBD8B22FA014F00803594 /* standingStill.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 277DBD8922FA014E00803594 /* standingStill.atlas */; };
+		27B90E0922FA17DD00B1F68E /* sleeping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 27B90E0822FA17DD00B1F68E /* sleeping.atlas */; };
 		AB6E22FC22F4A89100D747DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E22FB22F4A89100D747DA /* AppDelegate.swift */; };
 		AB6E22FE22F4A89100D747DA /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AB6E22FD22F4A89100D747DA /* GameScene.sks */; };
 		AB6E230022F4A89100D747DA /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AB6E22FF22F4A89100D747DA /* Actions.sks */; };
@@ -46,6 +47,7 @@
 		277DBD8622F9FD4A00803594 /* walkingUpperRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = walkingUpperRight.atlas; path = feldem/walkingUpperRight.atlas; sourceTree = SOURCE_ROOT; };
 		277DBD8822FA014E00803594 /* layingDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = layingDown.atlas; path = feldem/layingDown.atlas; sourceTree = SOURCE_ROOT; };
 		277DBD8922FA014E00803594 /* standingStill.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = standingStill.atlas; path = feldem/standingStill.atlas; sourceTree = SOURCE_ROOT; };
+		27B90E0822FA17DD00B1F68E /* sleeping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = sleeping.atlas; path = feldem/sleeping.atlas; sourceTree = SOURCE_ROOT; };
 		AB6E22F822F4A89100D747DA /* Feldem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feldem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6E22FB22F4A89100D747DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB6E22FD22F4A89100D747DA /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		AB6E22FA22F4A89100D747DA /* Feldem */ = {
 			isa = PBXGroup;
 			children = (
+				27B90E0822FA17DD00B1F68E /* sleeping.atlas */,
 				277DBD8822FA014E00803594 /* layingDown.atlas */,
 				277DBD8922FA014E00803594 /* standingStill.atlas */,
 				277DBD8622F9FD4A00803594 /* walkingUpperRight.atlas */,
@@ -181,6 +184,7 @@
 				AB6E22FE22F4A89100D747DA /* GameScene.sks in Resources */,
 				275F0D3822F8C2EE00845137 /* walkingDown.atlas in Resources */,
 				277DBD8722F9FD4B00803594 /* walkingUpperRight.atlas in Resources */,
+				27B90E0922FA17DD00B1F68E /* sleeping.atlas in Resources */,
 				277DBD8222F9EA5800803594 /* ghost3.atlas in Resources */,
 				277DBD8422F9EA5800803594 /* smokeGhost.atlas in Resources */,
 				AB6E230922F4A89200D747DA /* Assets.xcassets in Resources */,
