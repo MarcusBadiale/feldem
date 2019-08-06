@@ -69,13 +69,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		277DBD8522F9EA8100803594 /* Atlas */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Atlas;
-			sourceTree = "<group>";
-		};
 		AB6E22EF22F4A89100D747DA = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +102,6 @@
 				275F0D3522F8C2E800845137 /* walkingUp.atlas */,
 				275F0D3322F8BD5B00845137 /* walkingRight.atlas */,
 				275F0D3122F8B56E00845137 /* walkingLeft.atlas */,
-				277DBD8522F9EA8100803594 /* Atlas */,
 				AB6E22FB22F4A89100D747DA /* AppDelegate.swift */,
 				AB6E22FD22F4A89100D747DA /* GameScene.sks */,
 				AB6E22FF22F4A89100D747DA /* Actions.sks */,
@@ -358,15 +350,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SDMT4NZ5FG;
+				DEVELOPMENT_TEAM = LZ4KUFVTZH;
 				INFOPLIST_FILE = Feldem/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = gustavo.Feldem;
+				PRODUCT_BUNDLE_IDENTIFIER = com.academy.Feldem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -376,15 +370,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SDMT4NZ5FG;
+				DEVELOPMENT_TEAM = LZ4KUFVTZH;
 				INFOPLIST_FILE = Feldem/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = gustavo.Feldem;
+				PRODUCT_BUNDLE_IDENTIFIER = com.academy.Feldem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

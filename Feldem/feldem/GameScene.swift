@@ -43,7 +43,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
-    var player: SKSpriteNode?
     var wall: SKSpriteNode?
     var centerOfSquare0: SKNode?
     var centerOfSquare1: SKNode?
@@ -69,7 +68,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.background = (self.childNode(withName: "background") as? SKSpriteNode)!
         self.cameraTeste = (self.childNode(withName: "cameraTeste") as? SKCameraNode)!
-        self.player = (self.childNode(withName: "player") as? SKSpriteNode)!
         
         self.centerOfSquare0 = (self.childNode(withName: "centerOfSquare0"))!
         self.centerOfSquare1 = (self.childNode(withName: "centerOfSquare1"))!
@@ -85,14 +83,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.centerOfSquare11 = (self.childNode(withName: "centerOfSquare11"))!
         
         centers = [centerOfSquare0, centerOfSquare1, centerOfSquare2, centerOfSquare3, centerOfSquare4, centerOfSquare5, centerOfSquare6, centerOfSquare7, centerOfSquare8, centerOfSquare9, centerOfSquare10, centerOfSquare11] as! [SKNode]
-        
-        player?.name = "player"
         wall?.name = "wall"
         self.wall = (self.childNode(withName: "wall")as? SKSpriteNode)!
+        wall?.physicsBody?.categoryBitMask = 2
+        wall?.physicsBody?.collisionBitMask = 2
         camera = cameraTeste
-        if let background = self.background{
-            background.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        }
         
         updateFeldemDirection(to: .standingStill)
         setupFeldem()
@@ -106,12 +101,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let feldemDirection = calculateWalkingDirection(touchLocation: location)
         updateFeldemDirection(to: feldemDirection)
         moveFeldem(location: location)
-        
-        let positionInScene = touch?.location(in: self)
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
     }
     
     func calculateWalkingDirection(touchLocation: CGPoint) -> WalkingDirection {
@@ -161,10 +150,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupFeldem() {
         let firstFrameTexture = feldemWalkingFrames[0]
         feldem = SKSpriteNode(texture: firstFrameTexture)
-        feldem.position = CGPoint(x: frame.midX, y: frame.midY)
+        feldem.position = cameraTeste!.position
         feldem.zPosition = 10
+        feldem.name = "feldem"
+        feldem.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
+        feldem.physicsBody?.affectedByGravity = false
+        feldem.physicsBody?.allowsRotation = false
+        feldem.physicsBody?.categoryBitMask = 1
+        feldem.physicsBody?.collisionBitMask = 2
+        feldem.physicsBody?.contactTestBitMask = 2
         addChild(feldem)
-        feldem.setScale(0.1)
+        feldem.setScale(0.07)
     }
     
     func animateFeldem() {
@@ -203,37 +199,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         
         for node in centers{
-            if player!.position.distance(point: node.position) < player!.position.distance(point: cameraTeste!.position){
+            if feldem.position.distance(point: node.position) < feldem.position.distance(point: cameraTeste!.position){
                 cameraTeste?.run(SKAction.move(to: node.position, duration: 0.5))
             }
         }
     }
     
-    func stopMoving(player: SKSpriteNode) {
-        player.removeAction(forKey: "move")
+    func feldemMoveEnded(){
+        feldem.removeAllActions()
+        animateFeldemStandingStill()
     }
+    
+    func stopMoving(player: SKSpriteNode) {
+        player.removeAction(forKey: "feldemMoving")
+    }
+    
+    
     
     func didBegin(_ contact: SKPhysicsContact) {
-        if contact.bodyA.node?.name == "player" && contact.bodyB.node?.name == "wall"{
-            stopMoving(player: player!)
-            if player!.position.y < wall!.position.y{
-                player?.position.y = (player?.position.y)! - 1.0
+        if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "wall"{
+            feldemMoveEnded()
+            if feldem.position.y < wall!.position.y{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
-            
-            print("o player bateu com a parede")
         }
         
-        if contact.bodyB.node?.name == "player" && contact.bodyA.node?.name == "wall"{
-            stopMoving(player: player!)
-            if player!.position.y < wall!.position.y{
-                player?.run(SKAction.moveTo(y: player!.position.y - 5, duration: 0.1))
-                print("empurrou")
+        if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "wall"{
+            feldemMoveEnded()
+            if feldem.position.y < wall!.position.y{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
-            print("a parede bateu com o player")
         }
     }
-    
-    
 }
 
 extension CGPoint {
