@@ -39,6 +39,30 @@ class GameViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
+        switch UIDevice.current.orientation {
+        case .portrait, .portraitUpsideDown:
+            scene?.background?.texture = SKTexture(imageNamed: "background")
+            scene?.tree?.texture = SKTexture(imageNamed: "tree")
+//            for wall in scene!.walls{
+//                scene?.addChild(wall)
+//            }
+//            for wall in scene!.darkwalls{
+//                wall.removeFromParent()
+//            }
+        case .landscapeLeft, .landscapeRight:
+            scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
+            scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
+//            for wall in scene!.walls{
+//                wall.removeFromParent()
+//            }
+//            for wall in scene!.darkwalls{
+//                scene?.addChild(wall)
+//            }
+            
+        default:
+            scene?.background?.texture = SKTexture(imageNamed: "background")
+        }
+        
     }
     
     override var shouldAutorotate: Bool {

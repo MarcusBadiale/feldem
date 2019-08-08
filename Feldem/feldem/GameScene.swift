@@ -43,23 +43,26 @@ enum WalkingDirection {
     
     var isMoving = false
     var timer = 0
+    var id = 1
     
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
-    var wall: SKSpriteNode?
-    var centerOfSquare0: SKNode?
-    var centerOfSquare1: SKNode?
-    var centerOfSquare2: SKNode?
-    var centerOfSquare3: SKNode?
-    var centerOfSquare4: SKNode?
-    var centerOfSquare5: SKNode?
-    var centerOfSquare6: SKNode?
-    var centerOfSquare7: SKNode?
-    var centerOfSquare8: SKNode?
-    var centerOfSquare9: SKNode?
-    var centerOfSquare10: SKNode?
-    var centerOfSquare11: SKNode?
+    var gate1: SKSpriteNode?
+    var gate2: SKSpriteNode?
+    var gate3: SKSpriteNode?
+    var gate4: SKSpriteNode?
+    var tree: SKSpriteNode?
+    var portalLight1: SKSpriteNode?
+    var portalLight2: SKSpriteNode?
     
+    var stump: SKSpriteNode?
+    var lake: SKSpriteNode?
+    var lake1: SKSpriteNode?
+    var lake2: SKSpriteNode?
+    var lake3: SKSpriteNode?
+    
+    var walls = [SKSpriteNode]()
+    var darkwalls = [SKSpriteNode]()
     var centers = [SKNode]()
     
     private var feldem = SKSpriteNode()
@@ -71,25 +74,42 @@ enum WalkingDirection {
         
         self.background = (self.childNode(withName: "background") as? SKSpriteNode)!
         self.cameraTeste = (self.childNode(withName: "cameraTeste") as? SKCameraNode)!
+        self.gate1 = (self.childNode(withName: "gate1") as? SKSpriteNode)!
+        self.gate2 = (self.childNode(withName: "gate2") as? SKSpriteNode)!
+        self.tree = (self.childNode(withName: "tree")as? SKSpriteNode)!
+        self.portalLight1 = (self.childNode(withName: "portalLight1")as? SKSpriteNode)!
+        self.portalLight2 = (self.childNode(withName: "portalLight2")as? SKSpriteNode)!
         
-        self.centerOfSquare0 = (self.childNode(withName: "centerOfSquare0"))!
-        self.centerOfSquare1 = (self.childNode(withName: "centerOfSquare1"))!
-        self.centerOfSquare2 = (self.childNode(withName: "centerOfSquare2"))!
-        self.centerOfSquare3 = (self.childNode(withName: "centerOfSquare3"))!
-        self.centerOfSquare4 = (self.childNode(withName: "centerOfSquare4"))!
-        self.centerOfSquare5 = (self.childNode(withName: "centerOfSquare5"))!
-        self.centerOfSquare6 = (self.childNode(withName: "centerOfSquare6"))!
-        self.centerOfSquare7 = (self.childNode(withName: "centerOfSquare7"))!
-        self.centerOfSquare8 = (self.childNode(withName: "centerOfSquare8"))!
-        self.centerOfSquare9 = (self.childNode(withName: "centerOfSquare9"))!
-        self.centerOfSquare10 = (self.childNode(withName: "centerOfSquare10"))!
-        self.centerOfSquare11 = (self.childNode(withName: "centerOfSquare11"))!
+        self.stump = (self.childNode(withName: "stump")as? SKSpriteNode)!
+        self.lake = (self.childNode(withName: "lake")as? SKSpriteNode)!
+        self.lake1 = (self.childNode(withName: "lake1")as? SKSpriteNode)!
+        self.lake2 = (self.childNode(withName: "lake2")as? SKSpriteNode)!
+        self.lake3 = (self.childNode(withName: "lake3")as? SKSpriteNode)!
         
-        centers = [centerOfSquare0, centerOfSquare1, centerOfSquare2, centerOfSquare3, centerOfSquare4, centerOfSquare5, centerOfSquare6, centerOfSquare7, centerOfSquare8, centerOfSquare9, centerOfSquare10, centerOfSquare11] as! [SKNode]
-        wall?.name = "wall"
-        self.wall = (self.childNode(withName: "wall")as? SKSpriteNode)!
-        wall?.physicsBody?.categoryBitMask = 2
-        wall?.physicsBody?.collisionBitMask = 2
+        centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
+        walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
+        darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
+        
+        for wall in walls{
+            wall.name = "wall"
+            wall.physicsBody?.categoryBitMask = 2
+            wall.physicsBody?.collisionBitMask = 2
+        }
+        
+        for wall in darkwalls{
+            wall.name = "wall"
+            wall.physicsBody?.categoryBitMask = 2
+            wall.physicsBody?.collisionBitMask = 2
+        }
+        
+        stump?.name = "wall"
+        lake?.name = "wall"
+        lake1?.name = "wall"
+        lake2?.name = "wall"
+        
+        gate1?.name = "gate"
+        gate2?.name = "gate"
+        
         camera = cameraTeste
         
         updateFeldemDirection(to: .standingStill)
@@ -156,14 +176,14 @@ enum WalkingDirection {
         feldem.position = cameraTeste!.position
         feldem.zPosition = 10
         feldem.name = "feldem"
-        feldem.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
+        feldem.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width + 5, height: self.size.height))
         feldem.physicsBody?.affectedByGravity = false
         feldem.physicsBody?.allowsRotation = false
         feldem.physicsBody?.categoryBitMask = 1
         feldem.physicsBody?.collisionBitMask = 2
         feldem.physicsBody?.contactTestBitMask = 2
         addChild(feldem)
-        feldem.setScale(0.07)
+        feldem.setScale(0.05)
     }
     
     func animateFeldem() {
@@ -200,6 +220,15 @@ enum WalkingDirection {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        
+        
+        if feldem.position.y >= (portalLight1!.position.y - portalLight1!.size.height/2){
+            if feldem.position.x < (portalLight1!.position.x + portalLight1!.size.width/2) && feldem.position.x > (portalLight1!.position.x - portalLight1!.size.width/2){
+                feldem.position = portalLight2!.position
+                cameraTeste?.position = centers[5].position
+            }
+        }
+        
         for node in centers{
             if feldem.position.distance(point: node.position) < feldem.position.distance(point: cameraTeste!.position){
                 cameraTeste?.run(SKAction.move(to: node.position, duration: 0.5))
@@ -235,14 +264,65 @@ enum WalkingDirection {
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "wall"{
             feldemMoveEnded()
-            if feldem.position.y < wall!.position.y{
+            if feldem.position.y < (contact.bodyB.node?.position.y)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
+            if feldem.position.y > (contact.bodyB.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x > (contact.bodyB.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x < (contact.bodyB.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+            }
+            
         }
         
         if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "wall"{
             feldemMoveEnded()
-            if feldem.position.y < wall!.position.y{
+            if feldem.position.y < (contact.bodyA.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+            }
+            if feldem.position.y > (contact.bodyA.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x > (contact.bodyA.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x < (contact.bodyA.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+            }
+        }
+        
+        if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "gate"{
+            feldemMoveEnded()
+            if feldem.position.y < (contact.bodyA.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+            }
+            if feldem.position.y > (contact.bodyA.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x > (contact.bodyA.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x < (contact.bodyA.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+            }
+        }
+        
+        if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "gate"{
+            feldemMoveEnded()
+            if feldem.position.y < (contact.bodyB.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+            }
+            if feldem.position.y > (contact.bodyB.node?.position.y)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x > (contact.bodyB.node?.position.x)!{
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+            }
+            if feldem.position.x < (contact.bodyB.node?.position.x)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
         }
