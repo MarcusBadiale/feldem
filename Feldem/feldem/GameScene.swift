@@ -62,6 +62,7 @@ enum WalkingDirection {
     var lake3: SKSpriteNode?
     
     var walls = [SKSpriteNode]()
+    var darkwalls = [SKSpriteNode]()
     var centers = [SKNode]()
     
     private var feldem = SKSpriteNode()
@@ -87,8 +88,15 @@ enum WalkingDirection {
         
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
+        darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
         
         for wall in walls{
+            wall.name = "wall"
+            wall.physicsBody?.categoryBitMask = 2
+            wall.physicsBody?.collisionBitMask = 2
+        }
+        
+        for wall in darkwalls{
             wall.name = "wall"
             wall.physicsBody?.categoryBitMask = 2
             wall.physicsBody?.collisionBitMask = 2
