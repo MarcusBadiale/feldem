@@ -60,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
-        darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
+//        darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
         
         for wall in walls{
             wall.name = "wall"
@@ -68,11 +68,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             wall.physicsBody?.collisionBitMask = 2
         }
         
-        for wall in darkwalls{
-            wall.name = "wall"
-            wall.physicsBody?.categoryBitMask = 2
-            wall.physicsBody?.collisionBitMask = 2
-        }
+//        for wall in darkwalls{
+//            wall.name = "wall"
+//            wall.physicsBody?.categoryBitMask = 2
+//            wall.physicsBody?.collisionBitMask = 2
+//        }
         
         stump?.name = "wall"
         lake?.name = "wall"
@@ -87,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Create feldem
         let characterSize = CGSize(width: frame.size.width , height: frame.size.height)
         print(characterSize)
-        feldem = Character(name: "feldem", speed: 150, size: characterSize, characterPosition: cameraTeste.position)
+        feldem = Character(name: "feldem", speed: 150, size: characterSize, characterPosition: cameraTeste!.position)
         ghost = Character(name: "ghost", speed: 200, size: characterSize, characterPosition: CGPoint(x: -25, y: 207))
         ghost2 = Character(name: "ghost", speed: 225, size: characterSize, characterPosition: CGPoint(x: -50, y: 207))
         ghost3 = Character(name: "ghost", speed: 250, size: characterSize, characterPosition: CGPoint(x: -75, y: 207))
@@ -146,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Physics Functions
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "wall"{
-            feldemMoveEnded()
+            feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyB.node?.position.y)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
@@ -163,7 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "wall"{
-            feldemMoveEnded()
+            feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyA.node?.position.y)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
@@ -179,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "gate"{
-            feldemMoveEnded()
+            feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyA.node?.position.y)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
@@ -195,7 +195,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "gate"{
-            feldemMoveEnded()
+            feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyB.node?.position.y)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }

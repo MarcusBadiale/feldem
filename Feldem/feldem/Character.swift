@@ -70,19 +70,22 @@ class Character: SKNode {
     func setupCharacter(size: CGSize) {
         let firstFrameTexture = characterWalkingFrames[0]
         character = SKSpriteNode(texture: firstFrameTexture, size: size)
-        character.zPosition = 10
+        zPosition = 10
         character.name = name
-        character.physicsBody = SKPhysicsBody(rectangleOf: size)
-        character.physicsBody?.affectedByGravity = false
-        character.physicsBody?.allowsRotation = false
-        character.physicsBody?.categoryBitMask = 1
-        character.physicsBody?.collisionBitMask = 2
-        character.physicsBody?.contactTestBitMask = 2
+        physicsBody = SKPhysicsBody(rectangleOf: size)
+        physicsBody?.affectedByGravity = false
+        physicsBody?.allowsRotation = false
+        physicsBody?.categoryBitMask = 1
+        physicsBody?.collisionBitMask = 2
+        physicsBody?.contactTestBitMask = 2
+        
         switch characterName {
         case "feldem":
-            character.setScale(0.07)
+            setScale(0.07)
+            name = "feldem"
+            character.name = "feldem"
         default:
-            character.setScale(0.1)
+            setScale(0.1)
         }
     }
 
@@ -135,14 +138,14 @@ class Character: SKNode {
         
         switch angleDegrees {
         case 22.5...67.4: return .feldemUpperRight
-        case 67.5...112.4: return .feldemUp
-        case 112.5...157.4: return .feldemUpperLeft
-        case 157.5...202.4: return .feldemLeft
-        case 202.5...247.4: return .feldemDownLeft
-        case 247.5...292.4: return .feldemDown
-        case 292.5...337.4: return .feldemDownRight
+        case 67.5...112.5: return .feldemUp
+        case 112.5...157.5: return .feldemUpperLeft
+        case 157.5...202.5: return .feldemLeft
+        case 202.5...247.5: return .feldemDownLeft
+        case 247.5...292.5: return .feldemDown
+        case 292.5...337.5: return .feldemDownRight
         case 337.5...360: return .feldemRight
-        case 0...22.4: return .feldemRight
+        case 0...22.5: return .feldemRight
         default:
             print("ba fudeu gurizao")
             return .feldemRight

@@ -13,7 +13,7 @@ class GameViewController: UIViewController {
     
     var scene: GameScene?
     var lightWorld = true
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
