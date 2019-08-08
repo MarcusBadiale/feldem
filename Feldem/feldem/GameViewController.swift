@@ -34,6 +34,56 @@ class GameViewController: UIViewController {
             view.showsFPS = true
             view.showsNodeCount = true
             view.showsPhysics = true
+            
+            
+            
+        }
+    }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        updateWorld()
+//    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateWorld()
+        
+        for center in scene!.centers{
+            print(center)
+        }
+    }
+    
+    fileprivate func updateWorld() {
+        switch UIDevice.current.orientation {
+        case .portrait, .portraitUpsideDown:
+            
+            scene?.background?.texture = SKTexture(imageNamed: "background")
+            scene?.tree?.texture = SKTexture(imageNamed: "tree")
+            
+            for wall in scene!.darkwalls + scene!.walls{
+                wall.removeFromParent()
+            }
+            //
+            for wall in scene!.walls{
+                scene!.addChild(wall)
+            }
+            
+        case .landscapeLeft, .landscapeRight:
+            
+            scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
+            scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
+            
+            for wall in scene!.darkwalls + scene!.walls{
+                wall.removeFromParent()
+            }
+            //
+            for wall in scene!.darkwalls{
+                scene!.addChild(wall)
+            }
+            
+            
+        default:
+            scene?.background?.texture = SKTexture(imageNamed: "background")
         }
     }
     
@@ -49,29 +99,7 @@ class GameViewController: UIViewController {
         default: print("?????")
         }
         
-        switch UIDevice.current.orientation {
-        case .portrait, .portraitUpsideDown:
-            scene?.background?.texture = SKTexture(imageNamed: "background")
-            scene?.tree?.texture = SKTexture(imageNamed: "tree")
-//            for wall in scene!.walls{
-//                scene?.addChild(wall)
-//            }
-//            for wall in scene!.darkwalls{
-//                wall.removeFromParent()
-//            }
-        case .landscapeLeft, .landscapeRight:
-            scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
-            scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
-//            for wall in scene!.walls{
-//                wall.removeFromParent()
-//            }
-//            for wall in scene!.darkwalls{
-//                scene?.addChild(wall)
-//            }
-            
-        default:
-            scene?.background?.texture = SKTexture(imageNamed: "background")
-        }
+        updateWorld()
         
     }
     

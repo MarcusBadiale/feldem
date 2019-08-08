@@ -60,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
-//        darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
+        darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
         
         for wall in walls{
             wall.name = "wall"
@@ -68,11 +68,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             wall.physicsBody?.collisionBitMask = 2
         }
         
-//        for wall in darkwalls{
-//            wall.name = "wall"
-//            wall.physicsBody?.categoryBitMask = 2
-//            wall.physicsBody?.collisionBitMask = 2
-//        }
+        for wall in darkwalls{
+            wall.name = "wall"
+            wall.physicsBody?.categoryBitMask = 2
+            wall.physicsBody?.collisionBitMask = 2
+        }
         
         stump?.name = "wall"
         lake?.name = "wall"
@@ -108,8 +108,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if feldem.position.y >= (portalLight1!.position.y - portalLight1!.size.height/2){
             if feldem.position.x < (portalLight1!.position.x + portalLight1!.size.width/2) && feldem.position.x > (portalLight1!.position.x - portalLight1!.size.width/2){
-                feldem.position = portalLight2!.position
-                cameraTeste?.position = centers[5].position
+                feldem.position.x = portalLight2!.position.x
+                feldem.position.y = (portalLight2?.position.y)! - 100
+                cameraTeste?.position = centers[6].position
             }
         }
         
@@ -148,16 +149,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "wall"{
             feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyB.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
             if feldem.position.y > (contact.bodyB.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x > (contact.bodyB.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x < (contact.bodyB.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
             
         }
@@ -165,48 +166,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "wall"{
             feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyA.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
             if feldem.position.y > (contact.bodyA.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x > (contact.bodyA.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x < (contact.bodyA.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
         }
         
         if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "gate"{
             feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyA.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
             if feldem.position.y > (contact.bodyA.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x > (contact.bodyA.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x < (contact.bodyA.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
         }
         
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "gate"{
             feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyB.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
             if feldem.position.y > (contact.bodyB.node?.position.y)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x > (contact.bodyB.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y + 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y + 10, duration: 0.1))
             }
             if feldem.position.x < (contact.bodyB.node?.position.x)!{
-                feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
+                feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
             }
         }
     }
