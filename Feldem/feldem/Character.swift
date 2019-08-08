@@ -16,6 +16,16 @@ class Character: SKNode {
     var character = SKSpriteNode()
     var characterWalkingFrames: [SKTexture] = []
     var isMoving = false
+    
+    override var physicsBody: SKPhysicsBody? {
+        didSet {
+            physicsBody?.affectedByGravity = false
+            physicsBody?.allowsRotation = false
+            physicsBody?.categoryBitMask = 1
+            physicsBody?.collisionBitMask = 2
+            physicsBody?.contactTestBitMask = 2
+        }
+    }
 
     override init() {
         super.init()
@@ -46,21 +56,25 @@ class Character: SKNode {
             case 200:
                 updateCharacterState(to: .firstGhost)
                 setupCharacter(size: size)
-                animateCharacter(state: .firstGhost, timePerFrame: 0.5)
+                animateCharacter(state: .firstGhost, timePerFrame: 0.1)
             case 225:
                 updateCharacterState(to: .secondGhost)
                 setupCharacter(size: size)
-                animateCharacter(state: .secondGhost, timePerFrame: 0.4)
+                animateCharacter(state: .secondGhost, timePerFrame: 0.1)
             case 250:
                 updateCharacterState(to: .thirdGhost)
                 setupCharacter(size: size)
-                animateCharacter(state: .thirdGhost, timePerFrame: 0.3)
+                animateCharacter(state: .thirdGhost, timePerFrame: 0.1)
             case 275:
                 updateCharacterState(to: .smokeGhost)
                 setupCharacter(size: size)
-                animateCharacter(state: .smokeGhost, timePerFrame: 0.2)
+                animateCharacter(state: .smokeGhost, timePerFrame: 0.1)
             default: print("incorrect speed")
             }
+        case "demon":
+            updateCharacterState(to: .demon)
+            setupCharacter(size: size)
+            animateCharacter(state: .demon, timePerFrame: 0.1)
         default:
             print("incorrect name")
         }
@@ -73,19 +87,20 @@ class Character: SKNode {
         zPosition = 10
         character.name = name
         physicsBody = SKPhysicsBody(rectangleOf: size)
-        physicsBody?.affectedByGravity = false
-        physicsBody?.allowsRotation = false
-        physicsBody?.categoryBitMask = 1
-        physicsBody?.collisionBitMask = 2
-        physicsBody?.contactTestBitMask = 2
+        
         
         switch characterName {
         case "feldem":
             setScale(0.07)
             name = "feldem"
             character.name = "feldem"
+            zPosition = 9
+        case "demon":
+            setScale(0.07)
+            alpha = 0
+            zPosition = 11
         default:
-            setScale(0.1)
+            setScale(0.5)
         }
     }
 
@@ -112,16 +127,21 @@ class Character: SKNode {
 
     func moveCharacter(to location: CGPoint) {
         isMoving = true
+        
+        
         let moveDifference = CGPoint(x: location.x - position.x, y: location.y - position.y)
         let distanceToMove = sqrt(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y)
         let moveDuration = distanceToMove / CGFloat(characterSpeed)
         let walkingDirection = calculateWalkingDirection(touchLocation: location)
+        
         animateCharacter(state: walkingDirection, timePerFrame: 0.1)
 
         let moveAction = SKAction.move(to: location, duration: (TimeInterval(moveDuration)))
         let doneAction = SKAction.run({ [weak self] in self?.characterMoveEnded()})
         let moveActionWithDone = SKAction.sequence([moveAction, doneAction])
         run(moveActionWithDone, withKey: "characterMoving")
+        
+       
     }
 
     func characterMoveEnded(){

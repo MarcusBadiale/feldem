@@ -59,6 +59,8 @@ class GameViewController: UIViewController {
             
             scene?.background?.texture = SKTexture(imageNamed: "background")
             scene?.tree?.texture = SKTexture(imageNamed: "tree")
+            scene?.batum?.alpha = 1
+            scene?.demon.alpha = 0
             
             for wall in scene!.darkwalls + scene!.walls{
                 wall.removeFromParent()
@@ -68,19 +70,21 @@ class GameViewController: UIViewController {
                 scene!.addChild(wall)
             }
             
+            
         case .landscapeLeft, .landscapeRight:
             
             scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
             scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
-            
+            scene!.batum?.alpha = 0
+            scene!.demon.alpha = 1
             for wall in scene!.darkwalls + scene!.walls{
                 wall.removeFromParent()
             }
+            
             //
             for wall in scene!.darkwalls{
                 scene!.addChild(wall)
             }
-            
             
         default:
             scene?.background?.texture = SKTexture(imageNamed: "background")
