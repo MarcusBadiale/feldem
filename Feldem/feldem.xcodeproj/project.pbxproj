@@ -21,7 +21,13 @@
 		277DBD8722F9FD4B00803594 /* walkingUpperRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 277DBD8622F9FD4A00803594 /* walkingUpperRight.atlas */; };
 		277DBD8A22FA014F00803594 /* layingDown.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 277DBD8822FA014E00803594 /* layingDown.atlas */; };
 		277DBD8B22FA014F00803594 /* standingStill.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 277DBD8922FA014E00803594 /* standingStill.atlas */; };
+		2797616022FA8AEA00CDF3B9 /* DarkWorldSong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2797615E22FA8AEA00CDF3B9 /* DarkWorldSong.m4a */; };
+		2797616122FA8AEA00CDF3B9 /* LightWorldSong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2797615F22FA8AEA00CDF3B9 /* LightWorldSong.m4a */; };
 		27B90E0922FA17DD00B1F68E /* sleeping.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 27B90E0822FA17DD00B1F68E /* sleeping.atlas */; };
+		27CC2C4E22FB4068000C3B56 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC2C4D22FB4068000C3B56 /* CGPointExtension.swift */; };
+		27CC2C5022FB40B0000C3B56 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC2C4F22FB40B0000C3B56 /* State.swift */; };
+		27CC2C5222FB484A000C3B56 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC2C5122FB484A000C3B56 /* Character.swift */; };
+		27E1F29C22FA807F00537549 /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1F29B22FA807F00537549 /* Music.swift */; };
 		AB6E22FC22F4A89100D747DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E22FB22F4A89100D747DA /* AppDelegate.swift */; };
 		AB6E22FE22F4A89100D747DA /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AB6E22FD22F4A89100D747DA /* GameScene.sks */; };
 		AB6E230022F4A89100D747DA /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AB6E22FF22F4A89100D747DA /* Actions.sks */; };
@@ -47,7 +53,13 @@
 		277DBD8622F9FD4A00803594 /* walkingUpperRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = walkingUpperRight.atlas; path = feldem/walkingUpperRight.atlas; sourceTree = SOURCE_ROOT; };
 		277DBD8822FA014E00803594 /* layingDown.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = layingDown.atlas; path = feldem/layingDown.atlas; sourceTree = SOURCE_ROOT; };
 		277DBD8922FA014E00803594 /* standingStill.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = standingStill.atlas; path = feldem/standingStill.atlas; sourceTree = SOURCE_ROOT; };
+		2797615E22FA8AEA00CDF3B9 /* DarkWorldSong.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DarkWorldSong.m4a; sourceTree = "<group>"; };
+		2797615F22FA8AEA00CDF3B9 /* LightWorldSong.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = LightWorldSong.m4a; sourceTree = "<group>"; };
 		27B90E0822FA17DD00B1F68E /* sleeping.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = sleeping.atlas; path = feldem/sleeping.atlas; sourceTree = SOURCE_ROOT; };
+		27CC2C4D22FB4068000C3B56 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CGPointExtension.swift; path = feldem/CGPointExtension.swift; sourceTree = SOURCE_ROOT; };
+		27CC2C4F22FB40B0000C3B56 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = State.swift; path = feldem/State.swift; sourceTree = SOURCE_ROOT; };
+		27CC2C5122FB484A000C3B56 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Character.swift; path = feldem/Character.swift; sourceTree = SOURCE_ROOT; };
+		27E1F29B22FA807F00537549 /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Music.swift; path = feldem/Music.swift; sourceTree = SOURCE_ROOT; };
 		AB6E22F822F4A89100D747DA /* Feldem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feldem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6E22FB22F4A89100D747DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB6E22FD22F4A89100D747DA /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -90,6 +102,8 @@
 		AB6E22FA22F4A89100D747DA /* Feldem */ = {
 			isa = PBXGroup;
 			children = (
+				2797615E22FA8AEA00CDF3B9 /* DarkWorldSong.m4a */,
+				2797615F22FA8AEA00CDF3B9 /* LightWorldSong.m4a */,
 				27B90E0822FA17DD00B1F68E /* sleeping.atlas */,
 				277DBD8822FA014E00803594 /* layingDown.atlas */,
 				277DBD8922FA014E00803594 /* standingStill.atlas */,
@@ -109,6 +123,10 @@
 				AB6E22FD22F4A89100D747DA /* GameScene.sks */,
 				AB6E22FF22F4A89100D747DA /* Actions.sks */,
 				AB6E230122F4A89100D747DA /* GameScene.swift */,
+				27CC2C5122FB484A000C3B56 /* Character.swift */,
+				27CC2C4F22FB40B0000C3B56 /* State.swift */,
+				27CC2C4D22FB4068000C3B56 /* CGPointExtension.swift */,
+				27E1F29B22FA807F00537549 /* Music.swift */,
 				AB6E230322F4A89100D747DA /* GameViewController.swift */,
 				AB6E230522F4A89100D747DA /* Main.storyboard */,
 				AB6E230822F4A89200D747DA /* Assets.xcassets */,
@@ -181,6 +199,7 @@
 				277DBD8322F9EA5800803594 /* ghost.atlas in Resources */,
 				277DBD8B22FA014F00803594 /* standingStill.atlas in Resources */,
 				277DBD7A22F9E8CA00803594 /* walkingDownRight.atlas in Resources */,
+				2797616122FA8AEA00CDF3B9 /* LightWorldSong.m4a in Resources */,
 				AB6E22FE22F4A89100D747DA /* GameScene.sks in Resources */,
 				275F0D3822F8C2EE00845137 /* walkingDown.atlas in Resources */,
 				277DBD8722F9FD4B00803594 /* walkingUpperRight.atlas in Resources */,
@@ -192,6 +211,7 @@
 				277DBD8A22FA014F00803594 /* layingDown.atlas in Resources */,
 				277DBD8122F9EA5800803594 /* ghost2.atlas in Resources */,
 				AB6E230C22F4A89200D747DA /* LaunchScreen.storyboard in Resources */,
+				2797616022FA8AEA00CDF3B9 /* DarkWorldSong.m4a in Resources */,
 				275F0D3622F8C2E800845137 /* walkingUp.atlas in Resources */,
 				275F0D3222F8B56E00845137 /* walkingLeft.atlas in Resources */,
 				275F0D3422F8BD5B00845137 /* walkingRight.atlas in Resources */,
@@ -208,7 +228,11 @@
 			files = (
 				AB6E230222F4A89100D747DA /* GameScene.swift in Sources */,
 				AB6E230422F4A89100D747DA /* GameViewController.swift in Sources */,
+				27CC2C5222FB484A000C3B56 /* Character.swift in Sources */,
+				27CC2C4E22FB4068000C3B56 /* CGPointExtension.swift in Sources */,
 				AB6E22FC22F4A89100D747DA /* AppDelegate.swift in Sources */,
+				27E1F29C22FA807F00537549 /* Music.swift in Sources */,
+				27CC2C5022FB40B0000C3B56 /* State.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

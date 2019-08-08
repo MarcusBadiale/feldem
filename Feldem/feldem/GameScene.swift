@@ -10,42 +10,17 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-enum WalkingDirection {
-        case up, down, left, right, upperRight, upperLeft, downLeft, downRight, standingStill, layingDown, sleeping
-        
-        var walkingDirectionName: String {
-            switch self {
-            case .left:
-                return "walkingLeft"
-            case .right:
-                return "walkingRight"
-            case .up:
-                return "walkingUp"
-            case .down:
-                return "walkingDown"
-            case .downLeft:
-                return "walkingDownLeft"
-            case .downRight:
-                return "walkingDownRight"
-            case .upperLeft:
-                return "walkingUpperLeft"
-            case .upperRight:
-                return "walkingUpperRight"
-            case .standingStill:
-                return "standingStill"
-            case .layingDown:
-                return "layingDown"
-            case .sleeping:
-                return "sleeping"
-            }
-        }
-    }
+    var feldem: Character!
     
-    var isMoving = false
+    var ghost: Character!
+    var ghost2: Character!
+    var ghost3: Character!
+    var smokeGhost: Character!
+    
     var timer = 0
     
     var background: SKSpriteNode?
-    var cameraTeste: SKCameraNode?
+    var cameraTeste: SKCameraNode!
     var wall: SKSpriteNode?
     var centerOfSquare0: SKNode?
     var centerOfSquare1: SKNode?
@@ -61,9 +36,6 @@ enum WalkingDirection {
     var centerOfSquare11: SKNode?
     
     var centers = [SKNode]()
-    
-    private var feldem = SKSpriteNode()
-    private var feldemWalkingFrames: [SKTexture] = []
     
     override func didMove(to view: SKView) {
         
@@ -92,111 +64,23 @@ enum WalkingDirection {
         wall?.physicsBody?.collisionBitMask = 2
         camera = cameraTeste
         
-        updateFeldemDirection(to: .standingStill)
-        setupFeldem()
-        animateFeldemStandingStill(state: .standingStill)
-    }
-
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        let location = (touch?.location(in: self))!
-        let feldemDirection = calculateWalkingDirection(touchLocation: location)
-        updateFeldemDirection(to: feldemDirection)
-        moveFeldem(location: location)
-    }
-    
-    func calculateWalkingDirection(touchLocation: CGPoint) -> WalkingDirection {
-        let deltaX = (touchLocation.x - feldem.position.x)
-        let deltaY = (touchLocation.y - feldem.position.y)
-        let angle = atan2(deltaY, deltaX) < 0 ? atan2(deltaY, deltaX) + CGFloat.pi*2 : atan2(deltaY, deltaX)
-        let angleDegrees = angle*180/CGFloat.pi
+        // Create feldem
+        let characterSize = CGSize(width: frame.size.width , height: frame.size.height)
+        print(characterSize)
+        feldem = Character(name: "feldem", speed: 150, size: characterSize, characterPosition: cameraTeste.position)
+        ghost = Character(name: "ghost", speed: 200, size: characterSize, characterPosition: CGPoint(x: -25, y: 207))
+        ghost2 = Character(name: "ghost", speed: 225, size: characterSize, characterPosition: CGPoint(x: -50, y: 207))
+        ghost3 = Character(name: "ghost", speed: 250, size: characterSize, characterPosition: CGPoint(x: -75, y: 207))
+        smokeGhost = Character(name: "smokeGhost", speed: 275, size: characterSize, characterPosition: CGPoint(x: -100, y: 207))
         
-        switch angleDegrees {
-        case 22,5...67,4:
-            return .upperRight
-        case 67,5...112,4:
-            return .up
-        case 112,5...157,4:
-            return .upperLeft
-        case 157,5...202,4:
-            return .left
-        case 202,5...247,4:
-            return .downLeft
-        case 247,5...292,4:
-            return .down
-        case 292,5...337,4:
-            return .downRight
-        case 337,5...360:
-            return .right
-        case 0...22,4:
-            return .right
-        default:
-            print("ba fudeu gurizao")
-            return .right
-        }
-    }
-    
-    // Character Functions
-    func updateFeldemDirection(to direction: WalkingDirection) {
-        let feldemAnimatedAtlas = SKTextureAtlas(named: direction.walkingDirectionName)
-        var walkFrames: [SKTexture] = []
         
-        let numImages = feldemAnimatedAtlas.textureNames.count
-        for i in 1...numImages {
-            let feldemTextureName = "feldem\(i)"
-            walkFrames.append(feldemAnimatedAtlas.textureNamed(feldemTextureName))
-        }
-        feldemWalkingFrames = walkFrames
-    }
-    
-    func setupFeldem() {
-        let firstFrameTexture = feldemWalkingFrames[0]
-        feldem = SKSpriteNode(texture: firstFrameTexture)
-        feldem.position = cameraTeste!.position
-        feldem.zPosition = 10
-        feldem.name = "feldem"
-        feldem.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
-        feldem.physicsBody?.affectedByGravity = false
-        feldem.physicsBody?.allowsRotation = false
-        feldem.physicsBody?.categoryBitMask = 1
-        feldem.physicsBody?.collisionBitMask = 2
-        feldem.physicsBody?.contactTestBitMask = 2
         addChild(feldem)
-        feldem.setScale(0.07)
-    }
+        addChild(ghost)
+        addChild(ghost2)
+        addChild(ghost3)
+        addChild(smokeGhost)
     
-    func animateFeldem() {
-        feldem.run(SKAction.repeatForever(
-            SKAction.animate(with: feldemWalkingFrames,
-                             timePerFrame: 0.1,
-                             resize: true,
-                             restore: true)),
-                   withKey: "walkingInPlaceFeldem")
-    }
-    
-    func animateFeldemStandingStill(state: WalkingDirection) {
-        updateFeldemDirection(to: state)
-        feldem.run(SKAction.repeatForever(
-            SKAction.animate(with: feldemWalkingFrames,
-                             timePerFrame: 2,
-                             resize: true,
-                             restore: true)),
-                   withKey: "standingStillFeldem")
-    }
-    
-    func moveFeldem(location: CGPoint) {
-        isMoving = true
-        let feldemSpeed = frame.size.width / 5
-        let moveDifference = CGPoint(x: location.x - feldem.position.x, y: location.y - feldem.position.y)
-        let distanceToMove = sqrt(moveDifference.x * moveDifference.x + moveDifference.y * moveDifference.y)
-        let moveDuration = distanceToMove / feldemSpeed
-        animateFeldem()
-
-        let moveAction = SKAction.move(to: location, duration: (TimeInterval(moveDuration)))
-        let doneAction = SKAction.run({ [weak self] in self?.feldemMoveEnded()})
-        let moveActionWithDone = SKAction.sequence([moveAction, doneAction])
-        feldem.run(moveActionWithDone, withKey: "feldemMoving")
+        playMusic()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -206,52 +90,45 @@ enum WalkingDirection {
             }
         }
         
-        if !isMoving{
+        if !feldem.isMoving{
             timer += 1
             if timer == 390{
-                updateFeldemDirection(to: .layingDown)
-                animateFeldemStandingStill(state: .layingDown)
+                feldem.updateCharacterState(to: .feldemLayingDown)
+                feldem.animateCharacter(state: .feldemLayingDown, timePerFrame: 1.5)
             }
             if timer == 800{
-                updateFeldemDirection(to: .sleeping)
-                animateFeldemStandingStill(state: .sleeping)
+                feldem.updateCharacterState(to: .feldemSleeping)
+                feldem.animateCharacter(state: .feldemSleeping, timePerFrame: 1.5)
+                
             }
         }
     }
+
     
-    func feldemMoveEnded(){
-        feldem.removeAllActions()
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        let location = (touch?.location(in: self))!
+        let feldemDirection = feldem.calculateWalkingDirection(touchLocation: location)
+        feldem.updateCharacterState(to: feldemDirection)
+        feldem.moveCharacter(to: location)
         timer = 0
-        isMoving = false
-        animateFeldemStandingStill(state: .standingStill)
     }
     
-    func stopMoving(player: SKSpriteNode) {
-        player.removeAction(forKey: "feldemMoving")
-    }
-    
-    
-    
+    // MARK: - Physics Functions
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "wall"{
-            feldemMoveEnded()
+            feldem.characterMoveEnded()
             if feldem.position.y < wall!.position.y{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
         }
         
         if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "wall"{
-            feldemMoveEnded()
+            feldem.characterMoveEnded()
             if feldem.position.y < wall!.position.y{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 5, duration: 0.1))
             }
         }
-    }
-}
-
-extension CGPoint {
-    func distance(point: CGPoint) -> CGFloat {
-        return abs(CGFloat(hypotf(Float(point.x - x), Float(point.y - y))))
     }
 }
 

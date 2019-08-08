@@ -12,6 +12,7 @@ import GameplayKit
 class GameViewController: UIViewController {
     
     var scene: GameScene?
+    var lightWorld = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,15 @@ class GameViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+        switch UIDevice.current.orientation {
+        case .portrait, .portraitUpsideDown:
+            lightWorld = true
+            switchSongs(mode: lightWorld)
+        case .landscapeLeft, .landscapeRight:
+            lightWorld = false
+            switchSongs(mode: lightWorld)
+        default: print("?????")
+        }
         
     }
     
