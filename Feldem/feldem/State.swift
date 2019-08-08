@@ -9,7 +9,7 @@
 import SpriteKit
 
 enum State {
-    case feldemUp, feldemDown, feldemLeft, feldemRight, feldemUpperRight, feldemUpperLeft, feldemDownLeft, feldemDownRight, feldemStandingStill, feldemLayingDown, feldemSleeping, firstGhost, secondGhost, thirdGhost, smokeGhost
+    case feldemUp, feldemDown, feldemLeft, feldemRight, feldemUpperRight, feldemUpperLeft, feldemDownLeft, feldemDownRight, feldemStandingStill, feldemLayingDown, feldemSleeping, firstGhost, secondGhost, thirdGhost, smokeGhost, demon
     
     var walkingDirectionName: String {
         switch self {
@@ -43,6 +43,8 @@ enum State {
             return "ghost3"
         case .smokeGhost:
             return "smokeGhost"
+        case .demon:
+            return "demon"
         }
     }
 }

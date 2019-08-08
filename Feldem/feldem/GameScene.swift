@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var ghost2: Character!
     var ghost3: Character!
     var smokeGhost: Character!
+    var demon: Character!
     
     var timer = 0
     var id = 1
@@ -44,9 +45,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lake3: SKSpriteNode?
     
     var gates = [SKSpriteNode]()
+    var batum: SKSpriteNode?
     var walls = [SKSpriteNode]()
     var darkwalls = [SKSpriteNode]()
     var centers = [SKNode]()
+    
     
     override func didMove(to view: SKView) {
         
@@ -69,6 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.lake1 = (self.childNode(withName: "lake1")as? SKSpriteNode)!
         self.lake2 = (self.childNode(withName: "lake2")as? SKSpriteNode)!
         self.lake3 = (self.childNode(withName: "lake3")as? SKSpriteNode)!
+        
+        self.batum = (self.childNode(withName: "batum")as? SKSpriteNode)!
         
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
@@ -104,17 +109,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let characterSize = CGSize(width: frame.size.width , height: frame.size.height)
         print(characterSize)
         feldem = Character(name: "feldem", speed: 150, size: characterSize, characterPosition: cameraTeste!.position)
-        ghost = Character(name: "ghost", speed: 200, size: characterSize, characterPosition: CGPoint(x: -25, y: 207))
-        ghost2 = Character(name: "ghost", speed: 225, size: characterSize, characterPosition: CGPoint(x: -50, y: 207))
-        ghost3 = Character(name: "ghost", speed: 250, size: characterSize, characterPosition: CGPoint(x: -75, y: 207))
-        smokeGhost = Character(name: "smokeGhost", speed: 275, size: characterSize, characterPosition: CGPoint(x: -100, y: 207))
+//        ghost = Character(name: "ghost", speed: 200, size: characterSize, characterPosition: CGPoint(x: 100, y: 896))
+//        ghost2 = Character(name: "ghost", speed: 225, size: characterSize, characterPosition: CGPoint(x: 0, y: 896))
+//        ghost3 = Character(name: "ghost", speed: 250, size: characterSize, characterPosition: CGPoint(x: -100, y: 896))
+//        smokeGhost = Character(name: "smokeGhost", speed: 275, size: characterSize, characterPosition: CGPoint(x: -200, y: 896))
+        demon = Character(name: "demon", speed: 0, size: characterSize, characterPosition: batum!.position)
+        
         
         
         addChild(feldem)
-        addChild(ghost)
-        addChild(ghost2)
-        addChild(ghost3)
-        addChild(smokeGhost)
+//        addChild(ghost)
+//        addChild(ghost2)
+//        addChild(ghost3)
+//        addChild(smokeGhost)
+        addChild(demon)
     
         playMusic()
     }

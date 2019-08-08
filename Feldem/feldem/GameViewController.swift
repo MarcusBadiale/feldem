@@ -51,10 +51,17 @@ class GameViewController: UIViewController {
     
     fileprivate func updateWorld() {
         switch UIDevice.current.orientation {
-        case .landscapeLeft, .landscapeRight:
             
+    
+        case .landscapeLeft, .landscapeRight:
             scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
             scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
+
+            scene?.background?.texture = SKTexture(imageNamed: "background")
+            scene?.tree?.texture = SKTexture(imageNamed: "tree")
+            scene?.batum?.alpha = 0
+            scene?.demon.alpha = 1
+
             
             for wall in scene!.darkwalls + scene!.walls{
                 wall.removeFromParent()
@@ -66,27 +73,25 @@ class GameViewController: UIViewController {
             
             for gate in scene!.gates{
                 gate.alpha = 0
-                //                gate.physicsBody = .none
             }
             
         default:
-            
+
             scene?.background?.texture = SKTexture(imageNamed: "background")
             scene?.tree?.texture = SKTexture(imageNamed: "tree")
-            
+            scene!.batum?.alpha = 1
+            scene!.demon.alpha = 0
             for wall in scene!.darkwalls + scene!.walls{
                 wall.removeFromParent()
             }
+            
             //
             for wall in scene!.walls{
                 scene!.addChild(wall)
             }
-            
             for gate in scene!.gates{
                 gate.alpha = 1
-//                gate.physicsBody = SKPhysicsBody(rectangleOf: gate.size)
             }
-
         }
     }
     
