@@ -22,13 +22,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
-    var gate1: SKSpriteNode?
-    var gate2: SKSpriteNode?
-    var gate3: SKSpriteNode?
-    var gate4: SKSpriteNode?
     var tree: SKSpriteNode?
+    
     var portalLight1: SKSpriteNode?
     var portalLight2: SKSpriteNode?
+    var portalDark1: SKSpriteNode?
+    var portalDark2: SKSpriteNode?
+    
+    var lever2isActive = false
+    var lever3isActive = false
+    
+    var lever1: SKSpriteNode?
+    var lever2: SKSpriteNode?
+    var lever3: SKSpriteNode?
+    var leverPortal: SKSpriteNode?
     
     var stump: SKSpriteNode?
     var lake: SKSpriteNode?
@@ -36,6 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lake2: SKSpriteNode?
     var lake3: SKSpriteNode?
     
+    var gates = [SKSpriteNode]()
     var walls = [SKSpriteNode]()
     var darkwalls = [SKSpriteNode]()
     var centers = [SKNode]()
@@ -46,11 +54,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.background = (self.childNode(withName: "background") as? SKSpriteNode)!
         self.cameraTeste = (self.childNode(withName: "cameraTeste") as? SKCameraNode)!
-        self.gate1 = (self.childNode(withName: "gate1") as? SKSpriteNode)!
-        self.gate2 = (self.childNode(withName: "gate2") as? SKSpriteNode)!
         self.tree = (self.childNode(withName: "tree")as? SKSpriteNode)!
+        
         self.portalLight1 = (self.childNode(withName: "portalLight1")as? SKSpriteNode)!
         self.portalLight2 = (self.childNode(withName: "portalLight2")as? SKSpriteNode)!
+        
+        self.lever1 = (self.childNode(withName: "lever1")as? SKSpriteNode)!
+        self.lever2 = (self.childNode(withName: "lever2")as? SKSpriteNode)!
+        self.lever3 = (self.childNode(withName: "lever3")as? SKSpriteNode)!
+        self.leverPortal = (self.childNode(withName: "leverPortal")as? SKSpriteNode)!
         
         self.stump = (self.childNode(withName: "stump")as? SKSpriteNode)!
         self.lake = (self.childNode(withName: "lake")as? SKSpriteNode)!
@@ -61,6 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
         darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
+        gates = children.filter({ $0.name?.contains("gate") ?? false }) as! [SKSpriteNode]
         
         for wall in walls{
             wall.name = "wall"
@@ -74,13 +87,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             wall.physicsBody?.collisionBitMask = 2
         }
         
+        for gate in gates{
+            gate.name = "wall"
+            gate.physicsBody?.categoryBitMask = 2
+            gate.physicsBody?.collisionBitMask = 2
+        }
+        
         stump?.name = "wall"
         lake?.name = "wall"
         lake1?.name = "wall"
         lake2?.name = "wall"
-        
-        gate1?.name = "gate"
-        gate2?.name = "gate"
         
         camera = cameraTeste
         
@@ -105,13 +121,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        
         if feldem.position.y >= (portalLight1!.position.y - portalLight1!.size.height/2){
             if feldem.position.x < (portalLight1!.position.x + portalLight1!.size.width/2) && feldem.position.x > (portalLight1!.position.x - portalLight1!.size.width/2){
                 feldem.position.x = portalLight2!.position.x
                 feldem.position.y = (portalLight2?.position.y)! - 100
                 cameraTeste?.position = centers[6].position
             }
+        }
+        
+        //É AQUI QUE EU FAÇO AS ALAVANCAS FUNCIONAR GUSTAVO, BOTA O SOM AE
+        //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        
+        if feldem.position.y <= (lever1!.position.y + lever1!.size.height/2){
+            if feldem.position.x >= (lever1!.position.x - lever1!.size.width/2) && feldem.position.x <= (lever1!.position.x + lever1!.size.width/2){
+                print("s")
+                gates[0].removeFromParent()
+            }
+            
+        }
+        
+        if feldem.position == lever2?.position{
+            if lever3isActive{
+                gates[1].removeFromParent()
+            }
+            lever2isActive = true
+        }
+        
+        if feldem.position == lever3?.position{
+            if lever2isActive{
+                gates[1].removeFromParent()
+            }
+            
         }
         
         for node in centers{

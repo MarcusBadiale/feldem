@@ -40,34 +40,17 @@ class GameViewController: UIViewController {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        updateWorld()
-//    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateWorld()
         
-        for center in scene!.centers{
-            print(center)
+        for gate in scene!.gates{
+            print(gate)
         }
     }
     
     fileprivate func updateWorld() {
         switch UIDevice.current.orientation {
-        case .portrait, .portraitUpsideDown:
-            
-            scene?.background?.texture = SKTexture(imageNamed: "background")
-            scene?.tree?.texture = SKTexture(imageNamed: "tree")
-            
-            for wall in scene!.darkwalls + scene!.walls{
-                wall.removeFromParent()
-            }
-            //
-            for wall in scene!.walls{
-                scene!.addChild(wall)
-            }
-            
         case .landscapeLeft, .landscapeRight:
             
             scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
@@ -81,9 +64,29 @@ class GameViewController: UIViewController {
                 scene!.addChild(wall)
             }
             
+            for gate in scene!.gates{
+                gate.alpha = 0
+                //                gate.physicsBody = .none
+            }
             
         default:
+            
             scene?.background?.texture = SKTexture(imageNamed: "background")
+            scene?.tree?.texture = SKTexture(imageNamed: "tree")
+            
+            for wall in scene!.darkwalls + scene!.walls{
+                wall.removeFromParent()
+            }
+            //
+            for wall in scene!.walls{
+                scene!.addChild(wall)
+            }
+            
+            for gate in scene!.gates{
+                gate.alpha = 1
+//                gate.physicsBody = SKPhysicsBody(rectangleOf: gate.size)
+            }
+
         }
     }
     
@@ -98,9 +101,7 @@ class GameViewController: UIViewController {
             switchSongs(mode: lightWorld)
         default: print("?????")
         }
-        
         updateWorld()
-        
     }
     
     override var shouldAutorotate: Bool {
