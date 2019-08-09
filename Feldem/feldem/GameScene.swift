@@ -20,6 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var timer = 0
     var id = 1
+    var portalDarkIsActive = false
     
     var background: SKSpriteNode?
     var cameraTeste: SKCameraNode?
@@ -61,6 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.portalLight1 = (self.childNode(withName: "portalLight1")as? SKSpriteNode)!
         self.portalLight2 = (self.childNode(withName: "portalLight2")as? SKSpriteNode)!
+        self.portalDark1 = (self.childNode(withName: "portal1")as? SKSpriteNode)!
+        self.portalDark2 = (self.childNode(withName: "portal2")as? SKSpriteNode)!
         
         self.lever1 = (self.childNode(withName: "lever1")as? SKSpriteNode)!
         self.lever2 = (self.childNode(withName: "lever2")as? SKSpriteNode)!
@@ -73,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.lake2 = (self.childNode(withName: "lake2")as? SKSpriteNode)!
         self.lake3 = (self.childNode(withName: "lake3")as? SKSpriteNode)!
         
-        self.batum = (self.childNode(withName: "batum")as? SKSpriteNode)!
+//        self.batum = (self.childNode(withName: "batum")as? SKSpriteNode)!
         
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
@@ -113,7 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        ghost2 = Character(name: "ghost", speed: 225, size: characterSize, characterPosition: CGPoint(x: 0, y: 896))
 //        ghost3 = Character(name: "ghost", speed: 250, size: characterSize, characterPosition: CGPoint(x: -100, y: 896))
 //        smokeGhost = Character(name: "smokeGhost", speed: 275, size: characterSize, characterPosition: CGPoint(x: -200, y: 896))
-        demon = Character(name: "demon", speed: 0, size: characterSize, characterPosition: batum!.position)
+//        demon = Character(name: "demon", speed: 0, size: characterSize, characterPosition: batum!.position)
         
         
         
@@ -122,7 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        addChild(ghost2)
 //        addChild(ghost3)
 //        addChild(smokeGhost)
-        addChild(demon)
+//        addChild(demon)
     
         playMusic()
     }
@@ -137,6 +140,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if portalDarkIsActive{
+            if feldem.position.y <= (portalDark1!.position.y + portalDark1!.size.height/2){
+                if feldem.position.x < (portalDark1!.position.x + portalDark1!.size.width/2) && feldem.position.x > (portalDark1!.position.x - portalDark1!.size.width/2){
+                    feldem.position.x = portalDark2!.position.x
+                    feldem.position.y = (portalLight2?.position.y)! - 600
+                    cameraTeste?.position = centers[1].position
+                }
+            }
+        }
+        
         //É AQUI QUE EU FAÇO AS ALAVANCAS FUNCIONAR GUSTAVO, BOTA O SOM AE
         //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         
@@ -148,18 +161,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        if feldem.position == lever2?.position{
-            if lever3isActive{
-                gates[1].removeFromParent()
+        if feldem.position.y >= (lever2!.position.y - lever2!.size.height/2){
+            if feldem.position.x >= (lever2!.position.x - lever2!.size.width/2) && feldem.position.x <= (lever2!.position.x + lever2!.size.width/2){
+                if lever3isActive{
+                    gates[1].removeFromParent()
+                    print("abriu")
+                }
+                print("LEVER2")
+                lever2isActive = true
             }
-            lever2isActive = true
         }
         
-        if feldem.position == lever3?.position{
-            if lever2isActive{
-                gates[1].removeFromParent()
+        if feldem.position.y <= (lever3!.position.y + lever3!.size.height/2){
+            if feldem.position.x >= (lever3!.position.x - lever3!.size.width/2) && feldem.position.x <= (lever3!.position.x + lever3!.size.width/2){
+                if lever2isActive{
+                    gates[1].removeFromParent()
+                    print("abriu")
+                }
+                print("LEVER3")
+                lever3isActive = true
             }
-            
+        }
+        
+        if feldem.position.y >= (leverPortal!.position.y - leverPortal!.size.height/2){
+            if feldem.position.x >= (leverPortal!.position.x - leverPortal!.size.width/2) && feldem.position.x <= (leverPortal!.position.x + leverPortal!.size.width/2){
+                portalDark1?.alpha = 1
+                portalDark2?.alpha = 1
+                print("PORTAL")
+                portalDarkIsActive = true
+            }
         }
         
         for node in centers{

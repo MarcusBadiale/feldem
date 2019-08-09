@@ -44,8 +44,11 @@ class GameViewController: UIViewController {
         super.viewDidAppear(animated)
         updateWorld()
         
-        for gate in scene!.gates{
-            print(gate)
+        scene?.portalDark1?.alpha = 0
+        scene?.portalDark2?.alpha = 0
+        
+        for center in scene!.centers{
+            print(center)
         }
     }
     
@@ -56,11 +59,9 @@ class GameViewController: UIViewController {
         case .landscapeLeft, .landscapeRight:
             scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
             scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
-
-            scene?.background?.texture = SKTexture(imageNamed: "background")
-            scene?.tree?.texture = SKTexture(imageNamed: "tree")
-            scene?.batum?.alpha = 0
-            scene?.demon.alpha = 1
+            
+//            scene?.batum?.alpha = 0
+//            scene?.demon.alpha = 1
 
             
             for wall in scene!.darkwalls + scene!.walls{
@@ -79,8 +80,8 @@ class GameViewController: UIViewController {
 
             scene?.background?.texture = SKTexture(imageNamed: "background")
             scene?.tree?.texture = SKTexture(imageNamed: "tree")
-            scene!.batum?.alpha = 1
-            scene!.demon.alpha = 0
+//            scene!.batum?.alpha = 1
+//            scene!.demon.alpha = 0
             for wall in scene!.darkwalls + scene!.walls{
                 wall.removeFromParent()
             }
