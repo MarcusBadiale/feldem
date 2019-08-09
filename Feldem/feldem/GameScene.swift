@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gate2: SKSpriteNode?
     var gate3: SKSpriteNode?
     var gate4: SKSpriteNode?
+    var gate6: SKSpriteNode?
     var tree: SKSpriteNode?
     var portalLight1: SKSpriteNode?
     var portalLight2: SKSpriteNode?
@@ -51,6 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.cameraTeste = (self.childNode(withName: "cameraTeste") as? SKCameraNode)!
         self.gate1 = (self.childNode(withName: "gate1") as? SKSpriteNode)!
         self.gate2 = (self.childNode(withName: "gate2") as? SKSpriteNode)!
+        self.gate6 = (self.childNode(withName: "DarkGate") as? SKSpriteNode)!
         self.tree = (self.childNode(withName: "tree")as? SKSpriteNode)!
         self.portalLight1 = (self.childNode(withName: "portalLight1")as? SKSpriteNode)!
         self.portalLight2 = (self.childNode(withName: "portalLight2")as? SKSpriteNode)!
@@ -66,6 +68,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         centers = children.filter({ $0.name?.contains("centerOfSquare") ?? false })
         walls = children.filter({ $0.name?.contains("wall") ?? false }) as! [SKSpriteNode]
         darkwalls = children.filter({ $0.name?.contains("Dark") ?? false }) as! [SKSpriteNode]
+        let boulders = children.filter({ $0.name?.contains("Boulder") ?? false}) as! [SKSpriteNode]
+        
+        
         
         for wall in walls{
             wall.name = "wall"
@@ -77,6 +82,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             wall.name = "wall"
             wall.physicsBody?.categoryBitMask = 2
             wall.physicsBody?.collisionBitMask = 2
+        }
+        
+        for boulder in boulders {
+            boulder.name = "DarkBoulder"
+            boulder.physicsBody?.categoryBitMask = 4
+            boulder.physicsBody?.contactTestBitMask = 3
+            print(boulder.position)
         }
         
         stump?.name = "wall"
@@ -154,6 +166,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Physics Functions
     func didBegin(_ contact: SKPhysicsContact) {
+        print("\(contact.bodyA.node?.name) and \(contact.bodyB.node?.name)")
+        
         if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "wall"{
             feldem.characterMoveEnded()
             if feldem.position.y < (contact.bodyB.node?.position.y)!{
@@ -216,6 +230,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if feldem.position.x < (contact.bodyB.node?.position.x)!{
                 feldem.run(SKAction.moveTo(y: feldem.position.y - 10, duration: 0.1))
+            }
+        }
+        
+        // O MEU NAO FUNCIONA AS WALL PQ TU NAO COBRE TODOS OS NOMES DE NODOS AQUI NE MEU
+        
+        if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "DarkBoulder" {
+            if feldem.position.y < (contact.bodyB.node?.position.y)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)!, y: (contact.bodyB.node?.position.y)! + 5000), duration: 0.5))
+            } else if feldem.position.y > (contact.bodyB.node?.position.y)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)!, y: (contact.bodyB.node?.position.y)! - 5000), duration: 0.5))
+            } else if feldem.position.x < (contact.bodyB.node?.position.x)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)! + 5000, y: (contact.bodyB.node?.position.y)!), duration: 0.5))
+            } else if feldem.position.x > (contact.bodyB.node?.position.x)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)! - 5000, y: (contact.bodyB.node?.position.y)!), duration: 0.5))
+            }
+        }
+        
+        if contact.bodyA.node?.name == "feldem" && contact.bodyB.node?.name == "DarkBoulder" {
+            if feldem.position.y < (contact.bodyB.node?.position.y)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)!, y: (contact.bodyB.node?.position.y)! + 5000), duration: 20))
+            } else if feldem.position.y > (contact.bodyB.node?.position.y)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)!, y: (contact.bodyB.node?.position.y)! - 5000), duration: 20))
+            } else if feldem.position.x < (contact.bodyB.node?.position.x)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)! + 5000, y: (contact.bodyB.node?.position.y)!), duration: 20))
+            } else if feldem.position.x > (contact.bodyB.node?.position.x)! {
+                print("aaaa")
+                contact.bodyB.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyB.node?.position.x)! - 5000, y: (contact.bodyB.node?.position.y)!), duration: 20))
+            }
+        }
+        if contact.bodyB.node?.name == "feldem" && contact.bodyA.node?.name == "DarkBoulder" {
+            if feldem.position.y < (contact.bodyA.node?.position.y)! {
+                print("aaaa")
+                contact.bodyA.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyA.node?.position.x)!, y: (contact.bodyA.node?.position.y)! + 5000), duration: 20))
+            } else if feldem.position.y > (contact.bodyA.node?.position.y)! {
+                print("aaaa")
+                contact.bodyA.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyA.node?.position.x)!, y: (contact.bodyA.node?.position.y)! - 5000), duration: 20))
+            } else if feldem.position.x < (contact.bodyA.node?.position.x)! {
+                print("aaaa")
+                contact.bodyA.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyA.node?.position.x)! + 5000, y: (contact.bodyA.node?.position.y)!), duration: 20))
+            } else if feldem.position.x > (contact.bodyA.node?.position.x)! {
+                print("aaaa")
+                contact.bodyA.node?.run(SKAction.move(to: CGPoint(x: (contact.bodyA.node?.position.x)! - 5000, y: (contact.bodyA.node?.position.y)!), duration: 20))
             }
         }
     }
