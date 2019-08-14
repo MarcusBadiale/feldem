@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		272AC0FF230344760074284F /* Lever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AC0FE230344760074284F /* Lever.swift */; };
 		27560A1222FCB29B003636C8 /* demon.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 27560A1122FCB29B003636C8 /* demon.atlas */; };
 		275F0D3222F8B56E00845137 /* walkingLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 275F0D3122F8B56E00845137 /* walkingLeft.atlas */; };
 		275F0D3422F8BD5B00845137 /* walkingRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 275F0D3322F8BD5B00845137 /* walkingRight.atlas */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		272AC0FE230344760074284F /* Lever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Lever.swift; path = feldem/Lever.swift; sourceTree = SOURCE_ROOT; };
 		27560A1122FCB29B003636C8 /* demon.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = demon.atlas; path = feldem/demon.atlas; sourceTree = SOURCE_ROOT; };
 		275F0D3122F8B56E00845137 /* walkingLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = walkingLeft.atlas; path = Feldem/walkingLeft.atlas; sourceTree = SOURCE_ROOT; };
 		275F0D3322F8BD5B00845137 /* walkingRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = walkingRight.atlas; path = Feldem/walkingRight.atlas; sourceTree = SOURCE_ROOT; };
@@ -128,6 +130,7 @@
 				AB6E230122F4A89100D747DA /* GameScene.swift */,
 				27CC2C5122FB484A000C3B56 /* Character.swift */,
 				27CC2C4F22FB40B0000C3B56 /* State.swift */,
+				272AC0FE230344760074284F /* Lever.swift */,
 				27CC2C4D22FB4068000C3B56 /* CGPointExtension.swift */,
 				27E1F29B22FA807F00537549 /* Music.swift */,
 				AB6E230322F4A89100D747DA /* GameViewController.swift */,
@@ -234,6 +237,7 @@
 				AB6E230422F4A89100D747DA /* GameViewController.swift in Sources */,
 				27CC2C5222FB484A000C3B56 /* Character.swift in Sources */,
 				27CC2C4E22FB4068000C3B56 /* CGPointExtension.swift in Sources */,
+				272AC0FF230344760074284F /* Lever.swift in Sources */,
 				AB6E22FC22F4A89100D747DA /* AppDelegate.swift in Sources */,
 				27E1F29C22FA807F00537549 /* Music.swift in Sources */,
 				27CC2C5022FB40B0000C3B56 /* State.swift in Sources */,

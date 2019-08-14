@@ -33,7 +33,7 @@ class GameViewController: UIViewController {
             
             view.showsFPS = true
             view.showsNodeCount = true
-            view.showsPhysics = true
+//            view.showsPhysics = true
             
             
             
@@ -60,8 +60,8 @@ class GameViewController: UIViewController {
             scene?.background?.texture = SKTexture(imageNamed: "backgroundDark")
             scene?.tree?.texture = SKTexture(imageNamed: "tree_dark")
             
-//            scene?.batum?.alpha = 0
-//            scene?.demon.alpha = 1
+            scene?.batum?.alpha = 0
+            scene?.demon.alpha = 1
 
             
             for wall in scene!.darkwalls + scene!.walls{
@@ -80,8 +80,8 @@ class GameViewController: UIViewController {
 
             scene?.background?.texture = SKTexture(imageNamed: "background")
             scene?.tree?.texture = SKTexture(imageNamed: "tree")
-//            scene!.batum?.alpha = 1
-//            scene!.demon.alpha = 0
+            scene!.batum?.alpha = 1
+            scene!.demon.alpha = 0
             for wall in scene!.darkwalls + scene!.walls{
                 wall.removeFromParent()
             }
